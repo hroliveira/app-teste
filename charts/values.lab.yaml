@@ -1,0 +1,38 @@
+# values.lab.yaml
+replicaCount: 1
+
+image:
+  repository: oliveirahr/app-teste
+  pullPolicy: IfNotPresent
+  tag: "latest"
+
+service:
+  type: LoadBalance
+  port: 80
+
+ingress:
+  enabled: true
+  annotations: {}
+  hosts:
+    - host: app-teste.rancher.hro.dev.br
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - host: app-teste.rancher.hro.dev.br
+
+resources: {}
+limits:
+  cpu: 100m
+  memory: 128Mi
+requests:
+  cpu: 100m
+  memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
