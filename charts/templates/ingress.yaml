@@ -1,10 +1,9 @@
-# templates/ingress.yaml
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ include "app-teste.fullname" . }}
   annotations:
-    {{-with .Values.ingress.annotations }}
+    {{- with .Values.ingress.annotations }}
     {{- toYaml . | nindent 4 }}
     {{- end }}
 spec:
