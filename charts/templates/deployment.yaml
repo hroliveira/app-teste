@@ -1,19 +1,18 @@
-# templates/deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "app-teste.fullname" . }}
   labels:
-    {{- include "app-teste.labels" . | nindent 4 }}
+    {{-include "app-teste.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      {{- include "app-teste.selectorLabels" . | nindent 6 }}
+      {{-include "app-teste.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "app-teste.selectorLabels" . | nindent 8 }}
+        {{-include "app-teste.selectorLabels" . | nindent 8 }}
     spec:
       containers:
         - name: {{ .Chart.Name }}
@@ -22,4 +21,4 @@ spec:
           ports:
             - containerPort: 80
           resources:
-            {{- toYaml .Values.resources | nindent 12 }}
+            {{-toYaml .Values.resources | nindent 12 }}
