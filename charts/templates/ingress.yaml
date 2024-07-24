@@ -1,0 +1,34 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "app-teste.fullname" . }}
+  annotations:
+    {{-with .Values.ingress.annotations }}
+      {{-toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  rules:
+  {{-range .Values.ingress.hosts }}
+    - host: {{ .host }}  # Verifique se .host está definido
+      http:
+        paths:
+        {{-range .paths }}
+          - path: {{ .path }}  # Verifique se .path está definido
+            pathType: {{ .pathType }}  # Certifique-se de que .pathType é um valor válido
+            backend:
+              service:
+                name: {{ include "app-teste.fullname" .Values.app.serviceName }}
+                port:
+                  number: {{ .Values.ingress.port | default 80 }}  # A porta deve ser definida aqui
+          {{- end }}
+    {{- end }}
+{{- if .Values.ingress.tls }}
+tls:
+  {{-range .Values.ingress.tls }}
+    - secretName: {{ .secretName }}
+      hosts:
+      {{- range .hosts }}
+        - {{ . }}
+      {{- end }}
+  {{- end }}
+  {{- end }}
